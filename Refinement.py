@@ -56,7 +56,7 @@ for name, df in datasets.items():
         
 # Droping columns 
 
-drop_columns = [ 'Categorybreakdown',
+drop_columns = [ 'Broadcategory',
     "2020-21LHBprimary", "2020-21LHBsecondary", "2020-21LHBandPHW other",
     "2021-22LHBprimary", "2021-22LHBsecondary", "2021-22LHBandPHWother",
     "2022-23LHBprimary", "2022-23LHBsecondary", "2022-23LHBandPHWother"
@@ -96,5 +96,28 @@ for name, df in datasets.items():
     elif name in leading:
         df.drop(columns=[col for col in leading_drop], inplace =True)
 
+swansea = datasets['Swansea Bay expenditure_by_category']
+Abertawe = datasets['Abertawe Bro Morgannwg University expenditure_by_category']
 
+
+Swansea_Bay_expenditure_by_category = pd.merge(Abertawe, swansea, on='Categorybreakdown', how='inner')
+
+Swansea_Bay_expenditure_by_category.info()
+
+key = 'Swansea Bay expenditure_by_category'
+value = Swansea_Bay_expenditure_by_category
+
+datasets[key] = value
+
+Cwm_Taf_Morgannwg_University = datasets['Cwm Taf Morgannwg University expenditure_by_category']
+Cwm_Taf_University = datasets['Cwm Taf University expenditure_by_category']
+
+Cwm_Taf_University_expenditure_by_category = pd.merge(Cwm_Taf_University, Cwm_Taf_Morgannwg_University, on='Categorybreakdown', how='inner')
+
+Cwm_Taf_University_expenditure_by_category.info()
+
+key = 'Cwm Taf Morgannwg University expenditure_by_category'
+value = Cwm_Taf_University_expenditure_by_category
+
+datasets[key] = value
 
