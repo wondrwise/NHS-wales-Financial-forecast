@@ -121,3 +121,25 @@ value = Cwm_Taf_University_expenditure_by_category
 
 datasets[key] = value
 
+
+# function
+
+# def merge_expenditure_dataset(key1, key2, merge_col, key3):
+    
+#     #get the two dataframes
+#     df1 = datasets[key1]
+#     df2 = datasets[key2]
+    
+#     # clean col names 
+#     df1.columns = df1.columns.str.strip()
+#     df2.columns = df2.columns.str.strip()
+    
+#     # merge
+#     merged_df = pd.merge(df1,df2, on=merge_col, how='inner')
+    
+#     datasets[key3] = merged_df
+    
+#     return merged_df
+
+
+del datasets[Cwm Taf University expenditure_by_category]
