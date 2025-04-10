@@ -57,7 +57,7 @@ for name, df in datasets.items():
 # Droping columns 
 
 drop_columns = [ 'Broadcategory',
-    "2020-21LHBprimary", "2020-21LHBsecondary", "2020-21LHBandPHW other",
+    "2020-21LHBprimary", "2020-21LHBsecondary", "2020-21LHBandPHWother",
     "2021-22LHBprimary", "2021-22LHBsecondary", "2021-22LHBandPHWother",
     "2022-23LHBprimary", "2022-23LHBsecondary", "2022-23LHBandPHWother"
     ]
@@ -86,7 +86,7 @@ for name, df in datasets.items():
 trailing = ['Abertawe Bro Morgannwg University expenditure_by_category', 'Cwm Taf University expenditure_by_category',]
 leading = ['Swansea Bay expenditure_by_category', 'Cwm Taf Morgannwg University expenditure_by_category']
 
-trailing_drop = ['2019-20','2020-21LHBandPHWother','2020-21LHBandPHWtotal','2021-22LHBandPHWtotal','2022-23LHBandPHWtotal']
+trailing_drop = ['2019-20','2020-21LHBandPHWtotal','2021-22LHBandPHWtotal','2022-23LHBandPHWtotal']
 leading_drop = ['2009-10','2010-11','2011-12','2012-13','2013-14','2014-15','2015-16','2016-17','2017-18','2018-19']
 
 for name, df in datasets.items():
@@ -141,5 +141,7 @@ datasets[key] = value
     
 #     return merged_df
 
+del datasets[]
 
-del datasets[Cwm Taf University expenditure_by_category]
+
+
