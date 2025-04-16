@@ -141,7 +141,26 @@ datasets[key] = value
     
 #     return merged_df
 
-del datasets[]
+
+del datasets ['Cwm Taf University expenditure_by_category']
+
+del datasets ['Abertawe Bro Morgannwg University expenditure_by_category']
 
 
+for name, df in datasets.items():
+    if '2020-21LHBandPHWtotal' in df.columns:
+        df.rename(columns={'2020-21LHBandPHWtotal' : '2020-21'}, inplace=True)
+        
 
+for name, df in datasets.items():
+    if '2021-22LHBandPHWtotal' in df.columns:
+        df.rename(columns={'2021-22LHBandPHWtotal' : '2021-22'}, inplace=True)
+        
+for name, df in datasets.items():
+    if '2022-23LHBandPHWtotal' in df.columns:
+        df.rename(columns={'2022-23LHBandPHWtotal' : '2022-23'}, inplace=True)
+        
+        
+        
+        
+    
