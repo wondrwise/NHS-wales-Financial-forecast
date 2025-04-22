@@ -34,6 +34,12 @@ datasets = {name: pd.read_csv(path) for name, path in file_paths.items()}
 #
 #
 
+# Data cleaning and reformating
+
+# 
+#
+
+
 # data frame inspection
 wales_expenditure = datasets['Wales expenditure_by_category']
 
@@ -142,10 +148,14 @@ datasets[key] = value
 #     return merged_df
 
 
+# Delete Merged data frames
+
 del datasets ['Cwm Taf University expenditure_by_category']
 
 del datasets ['Abertawe Bro Morgannwg University expenditure_by_category']
 
+
+# rename (LHBandPHWtotal) data columns 
 
 for name, df in datasets.items():
     if '2020-21LHBandPHWtotal' in df.columns:
@@ -160,7 +170,33 @@ for name, df in datasets.items():
     if '2022-23LHBandPHWtotal' in df.columns:
         df.rename(columns={'2022-23LHBandPHWtotal' : '2022-23'}, inplace=True)
         
+# remove brackets and numbers form the category breakdown
+
+for name, df in datasets.items():
+    if 'Categorybreakdown' in df.columns:
+        df['Categorybreakdown'] = (
+            df['Categorybreakdown'].astype(str) # Converts to string
+            .str.replace(r'\d+', '', regex=True) # Remove numbers
+            .str.replace(r'[()]', '', regex=True) # Remove Brackets
+            )
         
-        
+#
+#
+
+# EDA
+
+# Mean for all categories 
+
+for name, df in datasets.items():
+    # Find numeric columns
+    num_cols = df.select_dtypes(include ='number')
+    
+    if not num_cols.empty:
+        # Add mean column
+        df['Category_mean'] = num_cols.mean(axis=1)
+        print(f"Added 'category_mean' to: {name}")
+    else:
+        print(f" No numeric cols found in: {name}")
+    
         
     
