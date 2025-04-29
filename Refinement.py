@@ -11,6 +11,7 @@ import numpy as np
 import seaborn as sns
 from scipy.stats import ttest_rel, levene
 from scipy.stats import zscore
+import matplotlib.pyplot as plt
 
 
 # file paths
@@ -199,4 +200,55 @@ for name, df in datasets.items():
         print(f" No numeric cols found in: {name}")
     
         
+# plotting mean on histograms for 1 data set.
+
+wales_expenditure = datasets['Wales expenditure_by_category']
+
+wales_expenditure.info()   
+
+
+# plot histogram
+plt.figure(figsize=(8,5))
+plt.hist(wales_expenditure['Category_mean'],  edgecolor='black')\
+
+# Add labes and title
+plt.xlabel('Category Mean')
+plt.ylabel('Frequency')
+plt.title('Expenditure category means  - wales')
+plt.grid(True)
+plt.show()
+
+
+# plot Horisontal bar chat
+# plot Horisontal bar chat for one data set 
+
+categories = wales_expenditure['Categorybreakdown']
+means = wales_expenditure['Category_mean']
+
+plt.figure(figsize=(10,10))
+plt.barh(categories, means)
+plt.xlabel('Mean Expenditure')
+plt.title('Mean Wales NHS expenditure by category')
+plt.tight_layout()
+plt.show()
+
+# plot Horisontal bar chat for all data sets 
+
+for name, df in datasets.items():
+    
+    # check if required columns exists 
+    if 'Categorybreakdown' in df.columns and 'Category_mean' in df.columns:
+        
+        categories = wales_expenditure['Categorybreakdown']
+        means = wales_expenditure['Category_mean']
+        
+        plt.figure(figsize=(10,10))
+        plt.barh(categories, means)
+        plt.xlabel('Mean Expenditure')
+        plt.title(f'Mean  NHS expenditure by category - {name}')
+        plt.tight_layout()
+        plt.show()
+        
+    else:
+        print(f'Skipped {name} : Required columns missong')
     
