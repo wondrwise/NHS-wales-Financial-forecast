@@ -79,21 +79,11 @@ drop_columns = [ 'Broadcategory',
     "2022-23LHBprimary", "2022-23LHBsecondary", "2022-23LHBandPHWother"
     ]
 
-
-
 for name, df in datasets.items():
     df.columns = df.columns.str.strip().str.replace(' ','')
     
     df.drop(columns=[col for col in drop_columns if col in df.columns], inplace=True)
     
-
-
-# Cwm_Taf_Morgannwg_University_expenditure_by_category = datasets['Cwm Taf Morgannwg University expenditure_by_category']
-
-# Cwm_Taf_Morgannwg_University_expenditure_by_category.columns
-
-# Cwm_Taf_Morgannwg_University_expenditure_by_category.columns.str.strip()
-
 #
 #
 
@@ -147,32 +137,11 @@ value = Cwm_Taf_University_expenditure_by_category
 
 datasets[key] = value
 
-# function
 
-# def merge_expenditure_dataset(key1, key2, merge_col, key3):
-    
-#     #get the two dataframes
-#     df1 = datasets[key1]
-#     df2 = datasets[key2]
-    
-#     # clean col names 
-#     df1.columns = df1.columns.str.strip()
-#     df2.columns = df2.columns.str.strip()
-    
-#     # merge
-#     merged_df = pd.merge(df1,df2, on=merge_col, how='inner')
-    
-#     datasets[key3] = merged_df
-    
-#     return merged_df
+# Delete Merged redundunt data frames
 
-
-# Delete Merged data frames
-
-del datasets ['Cwm Taf University expenditure_by_category']
-
-del datasets ['Abertawe Bro Morgannwg University expenditure_by_category']
-
+#
+#
 
 # rename (LHBandPHWtotal) data columns 
 
@@ -206,6 +175,9 @@ for name, df in datasets.items():
 
 for name, df in datasets.items():
     df.to_csv(f'{name}.csv', index=False)
+
+
+
 
 
 # EDA
