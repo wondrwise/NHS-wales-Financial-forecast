@@ -97,21 +97,30 @@ for name, df in datasets.items():
 #
 #
 
-# Combining data frames
-# Combining Abertawe Bro with Swansea Bay
+# Combining data frames to represent the shift in Health boards in 2009
 
+# Combining Abertawe Bro with Swansea Bay
+# Combining Cwm Taf uni with Cwm Taf Morganmwg
+
+# trailling does not have data from 2019 - 2023
 trailing = ['Abertawe Bro Morgannwg University expenditure_by_category', 'Cwm Taf University expenditure_by_category',]
+
+#Leading does not have data from 2009 - 2019
 leading = ['Swansea Bay expenditure_by_category', 'Cwm Taf Morgannwg University expenditure_by_category']
 
+# Droping empty colmums in the trailling and Leading groups of data sets
+# define what to drop
 trailing_drop = ['2019-20','2020-21LHBandPHWtotal','2021-22LHBandPHWtotal','2022-23LHBandPHWtotal']
 leading_drop = ['2009-10','2010-11','2011-12','2012-13','2013-14','2014-15','2015-16','2016-17','2017-18','2018-19']
 
+# for loop to drop
 for name, df in datasets.items():
     if name in trailing:
         df.drop(columns=[col for col in trailing_drop], inplace =True)
         
     elif name in leading:
         df.drop(columns=[col for col in leading_drop], inplace =True)
+        
 
 swansea = datasets['Swansea Bay expenditure_by_category']
 Abertawe = datasets['Abertawe Bro Morgannwg University expenditure_by_category']
@@ -137,7 +146,6 @@ key = 'Cwm Taf Morgannwg University expenditure_by_category'
 value = Cwm_Taf_University_expenditure_by_category
 
 datasets[key] = value
-
 
 # function
 
@@ -193,6 +201,12 @@ for name, df in datasets.items():
         
 #
 #
+
+# Download cleaned data to be used for next steps
+
+for name, df in datasets.items():
+    df.to_csv(f'{name}.csv', index=False)
+
 
 # EDA
 
@@ -261,4 +275,8 @@ for name, df in datasets.items():
         
     else:
         print(f'Skipped {name} : Required columns missong')
+        
+        
+        
+        
     
