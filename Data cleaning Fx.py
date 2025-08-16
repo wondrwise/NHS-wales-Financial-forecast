@@ -44,10 +44,10 @@ def load_datasets(file_paths: dict[str,str]) ->dict[str, pd.DataFrame]:
     
     return datasets
 
+datasets = load_datasets(file_paths)
 
 # Standardize column names
 def standardize_cols(df: pd.DataFrame) -> pd.DataFrame:
-    df = df.copy()
     df.columns = (df.columns
         .str.strip() # removes spaces
         .str.lower() # lowercases
@@ -64,8 +64,16 @@ def standardize_cols(df: pd.DataFrame) -> pd.DataFrame:
         df = df.rename(columns={"category breakdown": "category_breakdown"})
     return df
 
-datasets = stan(file_paths)  
+# Normalize year Headers
+def normalize_year_headers(df: pd.DataFrame) ->pd.DataFrame:
+    df.columns = df.columns.str.replace(r"\s*\(\d+\)$", "", regex=True)
+    # normalize known variatnts with spaces removed
+    df.columns = df.columns.str.replace('--','-', regex=False)
+    return df
 
+for n, df in datasets.items():
+    #df = standardize_cols(df)
+    df = normalize_year_headers(df)
 
 
 
