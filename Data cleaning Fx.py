@@ -45,7 +45,7 @@ def load_datasets(file_paths: dict[str,str]) ->dict[str, pd.DataFrame]:
     return datasets
 
 datasets = load_datasets(file_paths)
-
+ 
 # Standardize column names
 def standardize_cols(df: pd.DataFrame) -> pd.DataFrame:
     df.columns = (df.columns
@@ -69,10 +69,21 @@ def normalize_year_headers(df: pd.DataFrame) ->pd.DataFrame:
     df.columns = df.columns.str.replace(r"\s*\(\d+\)$", "", regex=True)
     # normalize known variatnts with spaces removed
     df.columns = df.columns.str.replace('--','-', regex=False)
+    if '2019-20_4' in df.columns:
+        df.rename(columns={'2019-20_4': '2019-20'}, inplace=True)
     return df
 
+
+# Drop LHB SUB SPLITS
+def drop_lhb_subsplits(df: pd.DataFrame) -> pd.DataFrame:
+    
+    drop_regex = re.compile(r'^\d{4}-\d{2}_(lhb_primary|lhb_secondary|lhb_and_phw_other)$')
+    cols_to_drop = [c for c in df.columns if drop_regex.match(c)]
+    return df.drop(columns= cols_to_drop, )
+
+
 for n, df in datasets.items():
-    #df = standardize_cols(df)
+    # df = standardize_cols(df)
     df = normalize_year_headers(df)
 
 
