@@ -53,7 +53,7 @@ def standardize_cols(df: pd.DataFrame) -> pd.DataFrame:
         .str.lower() # lowercases
         .str.replace(r"[^\w\s-]", "", regex=True) # removes special characters except underscores/ hyphens
         .str.replace(r"\s+", "_", regex=True) # replaces any space  with single underscore
-        )
+   )
     # Unify category column name variations
     # unify category column name variations
     if "category_breakdown" not in df.columns and "categorybreakdown" in df.columns:
@@ -70,21 +70,22 @@ def normalize_year_headers(df: pd.DataFrame) ->pd.DataFrame:
     # normalize known variatnts with spaces removed
     df.columns = df.columns.str.replace('--','-', regex=False)
     if '2019-20_4' in df.columns:
-        df.rename(columns={'2019-20_4': '2019-20'}, inplace=True)
+        df.rename(columns={'2019-20_4': '2019-20'}, inplace=True) # renames column name 2019-20_4' to 2019-20
     return df
 
 
 # Drop LHB SUB SPLITS
 def drop_lhb_subsplits(df: pd.DataFrame) -> pd.DataFrame:
-    
-    drop_regex = re.compile(r'^\d{4}-\d{2}_(lhb_primary|lhb_secondary|lhb_and_phw_other)$')
-    cols_to_drop = [c for c in df.columns if drop_regex.match(c)]
-    return df.drop(columns= cols_to_drop, )
+    drop_regex = re.compile(r'^\d{4}-\d{2}_(lhb_primary|lhb_secondary|lhb_and_phw_other)$') # defines the regex of LHB COLUMNS
+    cols_to_drop = [c for c in df.columns if drop_regex.match(c)] # Defines a list of columns that need to be droped
+    return df.drop(columns= cols_to_drop, errors= 'ignore' ) # returns a df that has the columns on cols_to drop droped
 
 
 for n, df in datasets.items():
-    # df = standardize_cols(df)
-    df = normalize_year_headers(df)
+    #df = standardize_cols(df)
+    #df = normalize_year_headers(df)
+    df = drop_lhb_subsplits(df)
+    
 
 
 
