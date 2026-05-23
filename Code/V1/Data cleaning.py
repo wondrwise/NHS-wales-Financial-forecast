@@ -111,12 +111,39 @@ for name, df in datasets.items():
     elif name in leading:
         df.drop(columns=[col for col in leading_drop], inplace =True)
         
+        
+        
+        
+def clean_category(col):
+    return (
+        col
+        .str.strip()                       # remove leading/trailing spaces
+        .str.lower()                       # standardise case
+        .str.replace(r"[()]", "", regex=True)  # remove brackets
+        .str.replace(r"[^\w\s]", "", regex=True)  # remove punctuation
+        .str.replace(r"\s+", "_", regex=True)    # replace spaces with _
+    )
+
+for name, df in datasets.items():
+    df['Category breakdown'] = clean_category(df['Category breakdown'])
+
+       
 
 swansea = datasets['Swansea Bay expenditure_by_category']
 Abertawe = datasets['Abertawe Bro Morgannwg University expenditure_by_category']
 
+Cwm_Taf_Morgannwg_University = datasets['Cwm Taf Morgannwg University expenditure_by_category']
+Cwm_Taf_University = datasets['Cwm Taf University expenditure_by_category']
 
-Swansea_Bay_expenditure_by_category = pd.merge(Abertawe, swansea, on='Categorybreakdown', how='inner')
+Abertawe['Category breakdown'] = clean_category(Abertawe['Category breakdown'])
+swansea['Category breakdown'] = clean_category(swansea['Category breakdown'])
+
+Cwm_Taf_Morgannwg_University['Category breakdown'] = clean_category(Cwm_Taf_Morgannwg_University['Category breakdown'])
+Cwm_Taf_University['Category breakdown'] = clean_category(Cwm_Taf_University['Category breakdown'])
+
+
+
+Swansea_Bay_expenditure_by_category = pd.merge(Abertawe, swansea, on='Category breakdown', how='inner')
 
 Swansea_Bay_expenditure_by_category.info()
 
@@ -125,10 +152,9 @@ value = Swansea_Bay_expenditure_by_category
 
 datasets[key] = value
 
-Cwm_Taf_Morgannwg_University = datasets['Cwm Taf Morgannwg University expenditure_by_category']
-Cwm_Taf_University = datasets['Cwm Taf University expenditure_by_category']
 
-Cwm_Taf_University_expenditure_by_category = pd.merge(Cwm_Taf_University, Cwm_Taf_Morgannwg_University, on='Categorybreakdown', how='inner')
+
+Cwm_Taf_University_expenditure_by_category = pd.merge(Cwm_Taf_University, Cwm_Taf_Morgannwg_University, on='Category breakdown', how='inner')
 
 Cwm_Taf_University_expenditure_by_category.info()
 
@@ -170,6 +196,7 @@ for name, df in datasets.items():
         
 #
 #
+
 
 # Download cleaned data to be used for next steps
 
